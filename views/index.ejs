@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Posts | Dark Blog</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="min-h-screen bg-slate-950 text-slate-100 selection:bg-indigo-500/40">
+
+    <!-- Background Decorations -->
+    <div class="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+        <div class="absolute -right-40 -top-40 h-96 w-96 rounded-full bg-indigo-600/15 blur-3xl"></div>
+        <div class="absolute -bottom-40 -left-40 h-96 w-96 rounded-full bg-purple-600/15 blur-3xl"></div>
+    </div>
+
+    <main class="mx-auto max-w-6xl px-5 py-8 sm:px-8 sm:py-12">
+
+        <!-- Header -->
+        <header class="mb-10 flex flex-wrap items-center justify-between gap-4">
+
+            <a href="/" class="flex items-center gap-3">
+                <div
+                    class="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 text-2xl shadow-lg shadow-indigo-950/40">
+                    ✎
+                </div>
+
+                <div>
+                    <h1 class="text-2xl font-extrabold tracking-tight text-white">
+                        My Posts
+                    </h1>
+                    <p class="text-sm text-slate-400">
+                        Your thoughts, your space.
+                    </p>
+                </div>
+            </a>
+
+            <span
+                class="rounded-full border border-indigo-400/20 bg-indigo-500/10 px-4 py-2 text-sm font-semibold text-indigo-300">
+                Personal Blog
+            </span>
+
+        </header>
+
+        <!-- Create Post Form -->
+        <section
+            class="relative overflow-hidden rounded-3xl border border-white/10 bg-slate-900/80 p-6 shadow-2xl shadow-black/20 sm:p-10">
+
+            <div
+                class="pointer-events-none absolute -right-16 -top-20 h-56 w-56 rounded-full bg-indigo-500/10 blur-3xl">
+            </div>
+
+            <div class="relative">
+
+                <div class="mb-8 flex items-center gap-4">
+                    <div
+                        class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 text-2xl text-white shadow-lg shadow-indigo-950/40">
+                        ✎
+                    </div>
+
+                    <div>
+                        <h2 class="text-2xl font-bold tracking-tight text-white sm:text-3xl">
+                            Create a Post
+                        </h2>
+                        <p class="mt-1 text-slate-400">
+                            Turn your ideas into something worth reading.
+                        </p>
+                    </div>
+                </div>
+
+                <form action="/submit" method="POST" class="space-y-6">
+
+                    <!-- Title -->
+                    <div>
+                        <label for="title" class="mb-2 block text-sm font-semibold text-slate-200">
+                            Post Title
+                        </label>
+
+                        <input id="title" type="text" name="title" placeholder="Give your post a title..." required
+                            class="w-full rounded-xl border border-white/10 bg-slate-950/70 px-4 py-3.5 text-white placeholder:text-slate-500 outline-none transition focus:border-indigo-400 focus:ring-4 focus:ring-indigo-500/10">
+                    </div>
+
+                    <!-- Details -->
+                    <div>
+                        <label for="details" class="mb-2 block text-sm font-semibold text-slate-200">
+                            Post Details
+                        </label>
+
+                        <textarea id="details" name="details" rows="5" placeholder="Write your thoughts here..."
+                            required
+                            class="w-full resize-y rounded-xl border border-white/10 bg-slate-950/70 px-4 py-3.5 text-white placeholder:text-slate-500 outline-none transition focus:border-indigo-400 focus:ring-4 focus:ring-indigo-500/10"></textarea>
+                    </div>
+
+                    <!-- Submit -->
+                    <button type="submit"
+                        class="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-3.5 font-semibold text-white shadow-lg shadow-indigo-950/40 transition hover:-translate-y-0.5 hover:from-blue-500 hover:to-indigo-500 active:translate-y-0">
+                        <span class="text-xl">+</span>
+                        Create Post
+                    </button>
+
+                </form>
+
+            </div>
+        </section>
+
+        <!-- Posts Section -->
+        <section class="mt-14">
+
+            <!-- Posts Heading -->
+            <div class="mb-8 flex flex-wrap items-end justify-between gap-4">
+
+                <div>
+                    <p class="mb-2 text-sm font-semibold uppercase tracking-[0.2em] text-indigo-400">
+                        Your Collection
+                    </p>
+
+                    <h2 class="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+                        Your Posts<span class="text-indigo-400">.</span>
+                    </h2>
+
+                    <p class="mt-2 text-slate-400">
+                        All your ideas, collected in one place.
+                    </p>
+                </div>
+
+                <%const postFiles=files.filter(file=>file.toLowerCase().endsWith(".txt")); %>
+
+                    <span
+                        class="rounded-full border border-indigo-400/20 bg-indigo-500/10 px-4 py-2 text-sm font-semibold text-indigo-300">
+                        <%= postFiles.length %> Posts
+                    </span>
+
+            </div>
+
+            <!-- Post Cards -->
+            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+
+                <% if (postFiles.length> 0) { %>
+
+                    <% postFiles.forEach(e=> { %>
+
+                        <% const filename=e.replace(/\.txt$/i, "" ); %>
+
+                            <article
+                                class="group flex min-w-0 flex-col overflow-hidden rounded-2xl border border-white/10 bg-slate-900/80 shadow-lg shadow-black/10 transition duration-300 hover:-translate-y-1 hover:border-indigo-400/30 hover:shadow-xl hover:shadow-indigo-950/20">
+
+                                <!-- Card Banner -->
+                                <div
+                                    class="relative flex h-36 shrink-0 items-center justify-center overflow-hidden bg-gradient-to-br from-indigo-950 via-purple-900 to-blue-950">
+
+                                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/50 to-transparent">
+                                    </div>
+
+                                    <div
+                                        class="absolute -left-10 -top-10 h-36 w-36 rounded-full bg-blue-500/20 blur-2xl transition duration-500 group-hover:bg-blue-400/30">
+                                    </div>
+
+                                    <div
+                                        class="relative flex h-16 w-16 items-center justify-center rounded-2xl border border-white/15 bg-white/10 text-4xl shadow-xl backdrop-blur-sm transition duration-300 group-hover:scale-110">
+                                        📝
+                                    </div>
+
+                                    <span
+                                        class="absolute bottom-4 left-5 text-xs font-semibold uppercase tracking-[0.2em] text-indigo-200/80">
+                                        Blog Post
+                                    </span>
+
+                                </div>
+
+                                <!-- Card Content -->
+                                <div class="flex flex-1 flex-col p-5 sm:p-6">
+
+                                    <div class="flex min-w-0 flex-1 items-start justify-between gap-3">
+
+                                        <!-- Corrected Title -->
+                                        <h3
+                                            class="min-w-0 flex-1 break-words [overflow-wrap:anywhere] text-lg font-bold leading-7 text-white transition group-hover:text-indigo-300 sm:text-xl">
+                                            <%= filename.split("_").join(" ") %>
+                                    </h3>
+
+                                    <!-- Read More -->
+                                    <a
+                                        href=" /files/<%=encodeURIComponent(filename) %>"
+                                                class="mt-1 inline-flex shrink-0 items-center gap-1 whitespace-nowrap
+                                                rounded-lg border border-indigo-400/20 bg-indigo-500/10 px-3 py-2
+                                                text-sm font-semibold text-indigo-300 transition hover:border-indigo-400
+                                                hover:bg-indigo-600 hover:text-white">
+
+                                                Read More <span aria-hidden="true">→</span>
+                                                </a>
+
+                                    </div>
+
+                                    <!-- Card Footer -->
+                                    <div class="mt-6 flex items-center justify-between border-t border-white/10 pt-4">
+
+                                        <span class="text-xs text-slate-500">
+                                            Your personal journal
+                                        </span>
+
+                                        <span
+                                            class="h-2 w-2 rounded-full bg-indigo-400 shadow-sm shadow-indigo-400/50"></span>
+
+                                    </div>
+
+                                </div>
+
+                            </article>
+
+                            <% }) %>
+
+                                <% } else { %>
+
+                                    <!-- Empty State -->
+                                    <div
+                                        class="col-span-full rounded-3xl border border-dashed border-white/15 bg-slate-900/60 px-6 py-16 text-center">
+
+                                        <div
+                                            class="mx-auto flex h-20 w-20 items-center justify-center rounded-3xl border border-white/10 bg-white/5 text-4xl">
+                                            📝
+                                        </div>
+
+                                        <h3 class="mt-6 text-2xl font-bold text-white">
+                                            No Posts Yet
+                                        </h3>
+
+                                        <p class="mx-auto mt-2 max-w-md leading-7 text-slate-400">
+                                            Your story starts here. Create your first post using the form above.
+                                        </p>
+
+                                    </div>
+
+                                    <% } %>
+
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="mt-14 border-t border-white/10 py-7 text-center">
+            <p class="text-sm text-slate-500">
+                Made with <span class="text-indigo-400">♥</span> using Node.js, Express and EJS
+            </p>
+        </footer>
+
+    </main>
+
+</body>
+
+</html>

@@ -1,0 +1,182 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Post | BlogSpace</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body class="min-h-screen bg-[#080b14] text-white antialiased"
+      style="font-family: 'Inter', sans-serif;">
+
+    <!-- Navbar -->
+    <nav class="border-b border-white/10 bg-[#0b0f1a]/90">
+        <div class="max-w-5xl mx-auto px-5 py-5 flex items-center justify-between">
+            <a href="/profile" class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center font-extrabold text-lg shadow-lg shadow-indigo-500/20">
+                    B
+                </div>
+                <span class="text-xl font-bold tracking-tight">
+                    Blog<span class="text-indigo-400">Space</span>
+                </span>
+            </a>
+
+            <a href="/profile"
+               class="text-sm text-gray-400 hover:text-white transition flex items-center gap-2">
+                <span>←</span> Back to profile
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main -->
+    <main class="max-w-3xl mx-auto px-5 py-10 md:py-14">
+
+        <!-- Page heading -->
+        <div class="mb-8">
+            <div class="inline-flex items-center gap-2 rounded-full border border-indigo-400/20 bg-indigo-500/10 px-3 py-1.5 text-xs font-semibold text-indigo-300 mb-5">
+                <span class="w-2 h-2 rounded-full bg-indigo-400"></span>
+                POST EDITOR
+            </div>
+
+            <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight mb-3">
+                Refine your <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">story.</span>
+            </h1>
+
+            <p class="text-gray-400 text-sm md:text-base leading-7">
+                Make changes to your title and content. Your updated post will be saved when you publish your changes.
+            </p>
+        </div>
+
+        <!-- Editor Card -->
+        <div class="rounded-3xl border border-white/10 bg-[#111624] shadow-2xl shadow-black/20 overflow-hidden">
+
+            <!-- Card Header -->
+            <div class="px-6 md:px-8 py-5 border-b border-white/10 flex items-center justify-between">
+                <div>
+                    <h2 class="font-semibold text-white">Edit your post</h2>
+                    <p class="text-xs text-gray-500 mt-1">Update your post details below</p>
+                </div>
+
+                <div class="hidden sm:flex items-center gap-2 text-xs text-gray-400 bg-white/5 border border-white/10 rounded-lg px-3 py-2">
+                    <span class="text-indigo-400">✎</span>
+                    Editing mode
+                </div>
+            </div>
+
+            <!-- Form -->
+            <form action="/edit/<%= post._id %>" method="POST" class="p-6 md:p-8">
+
+                <!-- Title -->
+                <div class="mb-7">
+                    <div class="flex items-center justify-between mb-3">
+                        <label for="newTitle" class="text-sm font-semibold text-gray-200">
+                            Post title
+                        </label>
+                        <span class="text-xs text-gray-500">Required</span>
+                    </div>
+
+                    <input
+                        id="newTitle"
+                        type="text"
+                        name="newTitle"
+                        value="<%= post.posttitle %>"
+                        maxlength="150"
+                        placeholder="Give your story a great title..."
+                        required
+                        class="w-full rounded-xl border border-white/10 bg-[#0b0f1a] px-4 py-4 text-white placeholder-gray-600 outline-none transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10"
+                    >
+
+                    <p class="mt-2 text-xs text-gray-500">
+                        Keep your title clear and engaging.
+                    </p>
+                </div>
+
+                <!-- Previous Content -->
+                <div class="mb-7">
+                  
+                    <p class="mt-2 text-xs text-gray-500">
+                        This is your original content for reference.
+                    </p>
+                </div>
+
+                <!-- New Content -->
+                <div class="mb-8">
+                    <div class="flex items-center justify-between mb-3">
+                        <label for="newContent" class="text-sm font-semibold text-gray-200">
+                            Updated content
+                        </label>
+                        <span class="text-xs text-indigo-300">Editable</span>
+                    </div>
+
+                    <textarea
+                        id="newContent"
+                        name="newContent"
+                        rows="3"
+                        maxlength="20000"
+                        placeholder="Write your thoughts, share your story..."
+                        required
+                        class="w-full rounded-xl border border-white/10 bg-[#0b0f1a] px-4 py-4 text-white placeholder-gray-600 leading-7 outline-none transition resize-y focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10"
+                    ><%= post.postdata %></textarea>
+
+                    <div class="flex items-center justify-between gap-3 mt-2">
+                        <p class="text-xs text-gray-500">
+                            Review your changes before saving.
+                        </p>
+                        <span id="charCount" class="text-xs text-gray-500">0 / 20000</span>
+                    </div>
+                </div>
+
+                <!-- Divider -->
+                <div class="border-t border-white/10 mb-6"></div>
+
+                <!-- Actions -->
+                <div class="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-between gap-4">
+
+                    <a
+                        href="/profile"
+                        class="inline-flex justify-center items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-5 py-3.5 text-sm font-semibold text-gray-300 hover:bg-white/10 hover:text-white transition"
+                    >
+                        Cancel
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="inline-flex justify-center items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 px-6 py-3.5 text-sm font-bold text-white shadow-lg shadow-indigo-600/20 hover:from-indigo-500 hover:to-purple-500 hover:-translate-y-0.5 transition"
+                    >
+                        <span>Save changes</span>
+                        <span>→</span>
+                    </button>
+
+                </div>
+
+            </form>
+        </div>
+
+        <!-- Footer note -->
+        <p class="text-center text-xs text-gray-600 mt-6">
+            Your story, your voice. Make every edit count.
+        </p>
+
+    </main>
+
+    <script>
+        const content = document.getElementById("newContent");
+        const charCount = document.getElementById("charCount");
+
+        function updateCount() {
+            charCount.textContent =
+                `${content.value.length} / 20000`;
+        }
+
+        content.addEventListener("input", updateCount);
+        updateCount();
+    </script>
+
+</body>
+</html>
